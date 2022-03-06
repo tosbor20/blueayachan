@@ -1203,6 +1203,15 @@ class BlueAyaChan(commands.Bot):
         tags = ["beatrix_(ff9)"]
         url = self.danbooru_picture_sfw(tags, init_p=1)
         await ctx.send(f'' + url)
+        
+    '''
+    teiopic for myself
+    '''
+    @commands.command(name='teiopic')
+    async def teio_pic_sfw(self, ctx):
+        tags = ["tokai_teio_(umamusume)"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
 
 
