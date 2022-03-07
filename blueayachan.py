@@ -1,17 +1,9 @@
 '''
-Project: BlueAyaChan - Twitch IRC Bot
+Project: TosBot20 (Fork of Blueayachan) - Twitch IRC Bot
 Date Published: 02/28/2022
-File: blueayachan.py
-Author: Alex Barney
-
-╭━━╮╭╮╱╱╱╱╱╱╭━━━╮╱╱╱╱╱╱╱╱╱╭╮
-┃╭╮┃┃┃╱╱╱╱╱╱┃╭━╮┃╱╱╱╱╱╱╱╱╱┃┃
-┃╰╯╰┫┃╭╮╭┳━━┫┃╱┃┣╮╱╭┳━━┳━━┫╰━┳━━┳━╮╱╭━━┳╮╱╭╮
-┃╭━╮┃┃┃┃┃┃┃━┫╰━╯┃┃╱┃┃╭╮┃╭━┫╭╮┃╭╮┃╭╮╮┃╭╮┃┃╱┃┃
-┃╰━╯┃╰┫╰╯┃┃━┫╭━╮┃╰━╯┃╭╮┃╰━┫┃┃┃╭╮┃┃┃┣┫╰╯┃╰━╯┃
-╰━━━┻━┻━━┻━━┻╯╱╰┻━╮╭┻╯╰┻━━┻╯╰┻╯╰┻╯╰┻┫╭━┻━╮╭╯
-╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃┃╱╭━╯┃
-╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰╯╱╰━━╯
+File: tosbot20-3.10.py
+Original Author: Alex Barney
+Edits Made by: ProPiece_
 '''
 import pybooru
 from twitchio.ext import commands
@@ -863,11 +855,11 @@ class BlueAyaChan(commands.Bot):
             print("connected to #" + str(i).strip('\n'))
         #auth token allocation
         tokens = []
-        with open("hooks", 'r') as fin:
+        with open("hooks.env", 'r') as fin:
             for l in fin:
                 tokens.append(l)
         # call superconstructor
-        super().__init__(irc_token=tokens[0], client_id=tokens[1], nick='BlueAyaChan', prefix='!', initial_channels=channels)
+        super().__init__(token='AuthCode', prefix='!', initial_channels=channels)
 
     #print deployment message
     async def event_ready(self):
@@ -979,230 +971,6 @@ class BlueAyaChan(commands.Bot):
                 return url
             return f'{url} Artist: {artist}'
         return url
-
-    '''
-    Command: !ayapic - Queries safebooru and returns a link to a picture of
-                       Aya Shameimaru
-    '''
-    @commands.command(name='ayapic')
-    async def aya_picture_sfw(self, ctx):
-        if (str(ctx.channel).strip() == "mpghappiness"):
-            await ctx.send(f"too hot for #{ctx.channel}")
-            return
-        url = self.danbooru_picture_sfw('shameimaru_aya', init_p=1, limit_p=250)
-        await ctx.send(f'' + url)
-
-    '''
-        maripic for clod
-     '''
-    @commands.command(name='maripic')
-    async def mari_picture_sfw(self, ctx):
-        mari_channels = ["claude", "darko_rta", "electra_rta", "thelcc", "rosael_"]
-        if (str(ctx.channel).strip().lower() not in mari_channels):
-            await ctx.send(f"too hot for #{ctx.channel}")
-            return
-        url = self.danbooru_picture_sfw('kirisame_marisa')
-        await ctx.send(f'' + url)
-
-    '''
-        tsukipic for clod
-    '''
-    @commands.command(name='tsukipic')
-    async def tsukihime_picture_sfw(self, ctx):
-        if (str(ctx.channel).strip() == "mpghappiness"):
-            await ctx.send(f"too hot for #{ctx.channel}")
-            return
-        global melty_tags
-        tags = ["tsukihime", "melty_blood"]
-        little_art = ["roa", "mech", "neco", "nac", "wara", "hime", "nero", "nanaya", "warc", "miyako", "noel", "vlov"]
-        chat = str(ctx.content)
-        msg = chat[10:].strip()
-        if(msg.lower() in melty_tags.keys()):
-            tags.append(melty_tags[msg.lower()])
-        elif(msg.lower() == "-keywords" or msg.lower() == "-keys"):
-            keys = []
-            for i in melty_tags.keys():
-                keys.append(i)
-            await ctx.send(f'{str(keys).strip("[").strip("]")}')
-        elif(msg.lower() == "-tags"):
-            tags = []
-            for i in melty_tags.values():
-                tags.append(i)
-            await ctx.send(f'{str(tags).strip("[").strip("]")}, nakadashi ;)')
-        elif(msg.lower() == "hisui drip"):
-            url = 'https://i.imgur.com/9oCJoKQ.png'
-            await ctx.send(f'' + url)
-            return
-        if(msg.lower() in little_art):
-            url = self.danbooru_picture_sfw(tags, limit_p=20, init_p=1)
-        else:
-            url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        2hupic for EVERYONE
-    '''
-    @commands.command(name='touhoupic')
-    async def touhou_picture_sfw(self, ctx):
-        global touhou_tags
-        tags = ['touhou']
-        chat = str(ctx.content)
-        msg = chat[11:].strip()
-        keys = touhou_tags.keys()
-        for i in keys:
-            i.lower()
-        if (msg.lower() in keys):
-            tags.append(touhou_tags[msg.lower()])
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-    '''
-        amepic for amy
-    '''
-    @commands.command(name='amepic')
-    async def ame_picture_sfw(self, ctx):
-        tags = "watson_amelia"
-        if (str(ctx.channel).strip() != "amyrosalina"): # and ctx.author.name != "amyrosalina" or ctx.author.name == "electra_rta"):
-            await ctx.send(f"too hot for #{ctx.channel}")
-            return
-        #elif(str(ctx.channel).strip() != "amyrosalina" and ctx.author.name == "amyrosalina" or ctx.author.name == "electra_rta"):
-        #    url = self.danbooru_picture_sfw(tags)
-        #    await ctx.send(f'PRIVMSG jtv :/w amyrosalina ' + url)
-        #    return
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        etrianpic for me and rosael
-    '''
-    @commands.command(name='etrianpic')
-    async def etrian_picture_sfw(self, ctx):
-        tags = ["sekaiju_no_meikyuu"]
-        url = self.danbooru_picture_sfw(tags, init_p=1)
-        await ctx.send(f'' + url)
-
-    '''
-        maypic for mal
-    '''
-    @commands.command(name='maypic')
-    async def may_gg_picture_sfw(self, ctx):
-        tags = ["may_(guilty_gear)"]
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        dizzypic for clod
-    '''
-    @commands.command(name='dizzypic')
-    async def dizzy_gg_picture_sfw(self, ctx):
-        tags = ["dizzy_(guilty_gear)"]
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        jampic for tsukibaka
-    '''
-    @commands.command(name='jampic')
-    async def jam_gg_picture_sfw(self, ctx):
-        tags = ["kuradoberi_jam"]
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        idolpic for PI
-    '''
-    @commands.command(name='idolpic')
-    async def idol_pic_sfw(self, ctx):
-        tags = ['love_live!', 'idolmaster']
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        mothmanpic
-    '''
-    @commands.command(name='mothmanpic')
-    async def mothman_pic_sfw(self, ctx):
-        tags = ['mothman_(megami_tensei)']
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-
-    '''
-        datapic for THE lcc
-    '''
-    @commands.command(name='datapic')
-    async def data_pic_sfw(self, ctx):
-        tags = ['data_(mega_man)']
-        url = self.danbooru_picture_sfw(tags, init_p=1, limit_p=93)
-        await ctx.send(f'' + url)
-    
-    '''
-        fftpic for the fft community
-    '''
-    @commands.command(name='fftpic')
-    async def fft_pic_sfw(self, ctx):
-        tags = ['final_fantasy_tactics']
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-    
-    '''
-        bbpic for the blaz boob community
-    '''
-    @commands.command(name='bbcfpic')
-    async def bb_pic_sfw(self, ctx):
-        tags = ['blazblue:_central_fiction']
-        url = self.danbooru_picture_sfw(tags)
-        await ctx.send(f'' + url)
-    
-    '''
-        idunpic
-    '''
-    @commands.command(name='idunpic')
-    async def idun_pic_sfw(self, ctx):
-        tags = ['idunn_(megami_tensei)']
-        url = self.danbooru_picture_sfw(tags, init_p=1)
-        await ctx.send(f'' + url)
-    
-    '''
-       nemissapic 
-    '''
-    @commands.command(name='nemissapic')
-    async def nemissa_pic_sfw(self, ctx):
-        tags = ['nemissa']
-        url = self.danbooru_picture_sfw(tags, init_p=1)
-        await ctx.send(f'' + url)
-    
-    '''
-    clodpic
-    '''
-    #@commands.command(name='claudepic')
-    #async def claude_pic(self, ctx):
-    #    tags = ['claude']
-    
-    '''
-    electrapic
-    DOES NOT QUERY DANBOORU
-    '''
-    #@commands.command(name='electrapic')
-    #async def electra_pic_sfw(self, ctx):
-    #    await ctx.send()
-
-    '''
-    generic pic
-    '''
-    @commands.command(name='pic')
-    async def dan_pic(self, ctx):
-        msg = str(ctx.content)
-        tags = msg[5:].strip()
-        url = self.danbooru_picture_sfw(tags, init_p=1)
-        await ctx.send(f'' + url)
-
-    '''
-    beatrix pic for demonsmallz
-    '''
-    @commands.command(name='beatrixpic')
-    async def beatrix_pic_sfw(self, ctx):
-        tags = ["beatrix_(ff9)"]
-        url = self.danbooru_picture_sfw(tags, init_p=1)
-        await ctx.send(f'' + url)
         
     '''
     teiopic for myself
@@ -1213,479 +981,374 @@ class BlueAyaChan(commands.Bot):
         url = self.danbooru_picture_sfw(tags, init_p=1)
         await ctx.send(f'' + url)
 
-
-
-# -------------------------------------------------------------------------------------------------------------#
-##############################################   GACHA COMMANDS   ##############################################
-# -------------------------------------------------------------------------------------------------------------#
-
     '''
-        Command: !hornedanimegacha
+    Honk
     '''
-    @commands.command(name='hornedanimegacha')
-    async def hornedanimes(self, ctx):
-        global ha_list
-        try:
-            ha_rand = random.randint(0,len(ha_list)-1)
-            g_rand = random.randint(0, 101)
-            print(str(ha_rand) +'|'+str(g_rand))
-        except:
-            IndexError
-            print(str(ha_rand) +'|'+str(g_rand))
-        stars = 0
-        if(g_rand >= 1 and g_rand <= 45):
-            stars=1
-        elif(g_rand > 45 and g_rand <= 70):
-            stars=2
-        elif (g_rand > 70 and g_rand <= 85):
-            stars = 3
-        elif (g_rand > 85 and g_rand <= 96):
-            stars = 4
-        elif (g_rand > 97 and g_rand <= 100):
-            stars = 5
-        shiny = random.randint(0,8193)
-        if(shiny == 8192):
-            await ctx.send(f'{ctx.author.name} rolled a ' + str(stars) + '☆ ' + 'Shiny' + str(ha_list[ha_rand]) + '!!!!!!!!!!!!!!!')
-            return
-        await ctx.send(f'{ctx.author.name} rolled a ' + str(stars) + '☆ ' + str(ha_list[ha_rand]))
+    @commands.command(name='honkpic')
+    async def honoka_pic_sfw(self, ctx):
+        tags = ["kousaka_honoka"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-    
+    Eli
     '''
-    @commands.command(name='hagweights')
-    async def hagw(self, ctx):
-        await ctx.send(f' | 1☆~45% | 2☆~25% | 3☆~15% | 4☆~10% | 5☆<5% |')
+    @commands.command(name='elipic')
+    async def eli_pic_sfw(self, ctx):
+        tags = ["ayase_eli"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Etrian
+    Kotori
     '''
-    @commands.command(name='etrian')
-    async def etrian(self, ctx):
-        global eo_classes
-        classes = list(eo_classes.keys())
-        rand = random.randint(0,len(eo_classes)-1)
-        metric = \
-            [
-                'most based',
-                'worst',
-                'best',
-                'most boring',
-                'most fun',
-                'worst programmed',
-                'most weeb',
-                'most breakable',
-                'most underused',
-                'most loli',
-                'stupidest',
-                'most subclassable',
-                'least subclassable',
-                'most useless',
-                'most average',
-                'best bunny in',
-                'least bunny in',
-                'fastest',
-                'slowest',
-                'least intelligent (with people)',
-                'most playtested',
-                'most naga u drawn'
-            ]
-        met_rand = random.randint(0, len(metric)-1)
-        await ctx.send(f'The {metric[met_rand]} Etrian is {eo_classes[rand]} {eo_classes[classes[rand]]}')
+    @commands.command(name='kotoripic')
+    async def kotori_pic_sfw(self, ctx):
+        tags = ["minami_kotori"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Melty
+    Umi
     '''
-    @commands.command(name='melty')
-    async def melty(self, ctx):
-        global melty_chars
-        moons = ["Crecent", "Half", "Full"]
-        rand = random.randint(0, len(melty_chars) - 1)
-        moon_rand = random.randint(0, len(moons) - 1)
-        await ctx.send(f'{ctx.author.name} your new main in melty is {moons[moon_rand]} Moon {melty_chars[rand]}!')
+    @commands.command(name='Umipic')
+    async def umi_pic_sfw(self, ctx):
+        tags = ["sonoda_umi"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)        
 
     '''
-        Lumina
+    Rin
     '''
-    @commands.command(name='lumina')
-    async def lumina(self, ctx):
-        global lumina_characters
-        rand = random.randint(0, len(lumina_characters) - 1)
-        await ctx.send(f'{ctx.author.name} your new main in Melty Blood: Type Lumina is {lumina_characters[rand]}!')
+    @commands.command(name='rinpic')
+    async def rin_pic_sfw(self, ctx):
+        tags = ["hoshizora_rin"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Melee
+    Maki
     '''
-    @commands.command(name='melee')
-    async def melee(self, ctx):
-        #if (str(ctx.channel).strip() != "liquidsquidd" and str(ctx.channel).strip() != "mpghappiness" and str(ctx.channel).strip() != "electra_rta" and str(ctx.channel).strip() != "darko_rta"):
-        #    await ctx.send(f"too hot for #{ctx.channel}")
-        #    return
-        global melee_chars
-        rand = random.randint(0, len(melee_chars) - 1)
-        await ctx.send(f'{ctx.author.name} your new main in melee is {melee_chars[rand]}!')
+    @commands.command(name='makipic')
+    async def maki_pic_sfw(self, ctx):
+        tags = ["nishikino_maki"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)            
 
-    """
-        Soku
-    """
-    @commands.command(name ='soku')
-    async def soku(self, ctx):
-        global soku_chars
-        rand = random.randint(0, len(soku_chars) - 1)
-        await ctx.send(f'{ctx.author.name} your new main in Touhou 12.3 Hisoutensoku is {soku_chars[rand]}!')
+    '''
+    Nozomi
+    '''
+    @commands.command(name='nozomipic')
+    async def nozomi_pic_sfw(self, ctx):
+        tags = ["toujou_nozomi"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
-    """
-        BBCF
-    """
-    @commands.command(name ='bbcf')
-    async def bbcf(self, ctx):
-        global bbcf_chars
-        rand = random.randint(0, len(bbcf_chars) - 1)
-        await ctx.send(f'{ctx.author.name} your new main in Blaz Blue Central Fiction is {bbcf_chars[rand]}!')
+    '''
+    Hanayo
+    '''
+    @commands.command(name='hanayopic')
+    async def hanayo_pic_sfw(self, ctx):
+        tags = ["koizumi_hanayo"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)            
 
-    """
-        Jojos
-    """
-    @commands.command(name ='jojos')
-    async def jojos(self, ctx):
-        global jojos_chars
-        rand = random.randint(0, len(jojos_chars) - 1)
-        newjojo = jojos_chars[rand]
-        await ctx.send(f'{ctx.author.name} your new main in JoJos Bizarre Adventure: Heritage for the Future is {newjojo}!')
-    
-    """
-        AKB
-    """
-    @commands.command(name ='blitzkampf')
-    async def blitzkampf(self, ctx):
-        global akb_chars
-        rand = random.randint(0, len(akb_chars) - 1)
-        newakb = akb_chars[rand]
-        await ctx.send(f'{ctx.author.name} your new main in Akatsuki Blitzkampf Ausf. Achse is {newakb}!')  
+    '''
+    Nico
+    '''
+    @commands.command(name='nicopic')
+    async def nico_pic_sfw(self, ctx):
+        tags = ["yazawa_nico"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
-    """
-        Demon
-    """
-    @commands.command(name='demongacha')
-    async def demongacha(self, ctx):
-        global demons_nocturne
-        demon_names = list(demons_nocturne.keys())
-        rand = random.randint(0, len(demon_names) - 1)
-        g_rand = random.randint(0, 101)
-        stars = 1
-        if (g_rand >= 1 and g_rand <= 45):
-            stars = 1
-        elif (g_rand > 45 and g_rand <= 70):
-            stars = 2
-        elif (g_rand > 70 and g_rand <= 85):
-            stars = 3
-        elif (g_rand > 85 and g_rand <= 96):
-            stars = 4
-        elif (g_rand > 97 and g_rand <= 100):
-            stars = 5
-        await ctx.send(f'{ctx.author.name} summoned a {stars}☆ {demon_names[rand]}! {demons_nocturne[demon_names[rand]]}')
+    '''
+    Chika
+    '''
+    @commands.command(name='chikapic')
+    async def chika_pic_sfw(self, ctx):
+        tags = ["takami_chika"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)            
+
+    '''
+    Riko
+    '''
+    @commands.command(name='rikopic')
+    async def riko_pic_sfw(self, ctx):
+        tags = ["sakurauchi_riko"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
         
-    # -------------------------------------------------------------------------------------------------------------#
-    ##############################################   MUSIC COMMANDS   ##############################################
-    # -------------------------------------------------------------------------------------------------------------#
+    '''
+    Kanan
+    '''
+    @commands.command(name='kananpic')
+    async def kanan_pic_sfw(self, ctx):
+        tags = ["matsuura_kanan"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        etrianost
+    Dia
     '''
-    @commands.command(name='etrianost')
-    async def etrian_ost_deliverer(self, ctx):
-        global etrian_ost
-        rand = random.randint(0, len(etrian_ost) - 1)
-        titles = list(etrian_ost.keys())
-        await ctx.send(f"{titles[rand]} {etrian_ost[titles[rand]]}")
-
-    # -------------------------------------------------------------------------------------------------------------#
-    ##############################################   QUOTE COMMANDS   ##############################################
-    # -------------------------------------------------------------------------------------------------------------#
+    @commands.command(name='diapic')
+    async def dia_pic_sfw(self, ctx):
+        tags = ["kurosawa_dia"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        takuyaquote
+    You
     '''
-    @commands.command(name='takuyaquote')
-    async def takuyaquote(self, ctx):
-        global takuya_quotes
-        rand = random.randint(0, len(takuya_quotes) - 1)
-        await ctx.send(f'【Takuya】{takuya_quotes[rand]}')
+    @commands.command(name='youpic')
+    async def you_pic_sfw(self, ctx):
+        tags = ["watanabe_you"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        dreamboumtweet
+    Yoshiko
     '''
-    @commands.command(name='dreamboumtweet')
-    async def dreamboum_tweet(self, ctx, fp="dreamboum_tweets_01_10_2022.txt"):
-        rand = random.randint(0, 3541 - 1)
-        with open(fp, 'r', encoding='utf8') as fin:
-            x = 1
-            for l in fin:
-                if(x == rand):
-                    if(l[-14] != ' '):
-                        await ctx.send(f'{l[0:-14]}')
-                    else:
-                        await ctx.send(f'{l[0:-13]}')
-                    return
-                else:
-                    x+=1
-    '''
-        spreadmywingslyric
-    '''
-    @commands.command(name='spreadmywingslyric')
-    async def spread_my_wings_lyric(self, ctx, fp="SPREAD_MY_WINGS.txt"):
-        rand = random.randint(0, 60)
-        lyrics = []
-        with open(fp, 'r', encoding='utf8') as fin:
-            for l in fin:
-                lyrics.append(l)
-        await ctx.send(lyrics[rand])
+    @commands.command(name='yoshikopic')
+    async def yohane_pic_sfw(self, ctx):
+        tags = ["tsushima_yoshiko"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Command: !cfb - parses cfb.txt into lists used to create a name to send to the chat.
+    Hanamaru
     '''
-    @commands.command(name='cfb')
-    async def cfb_string_gen(self, ctx):
-        # populate lists for !cfb
-        c_list = []
-        f_list = []
-        b_list = []
-        # TODO: add '-v' for verbose cfb
-        cfb_txt = open('20k.txt', 'r')
-        cfb_str = cfb_txt.readlines()
-        cfb_txt.close()
-        for i in cfb_str:
-            if (i[0] == 'c'):
-                c_list.append(i)
-            if (i[0] == 'f'):
-                f_list.append(i)
-            if (i[0] == 'b'):
-                b_list.append(i)
-        # print(str(len(c_list)) + ' ' + str(len(f_list)) + ' ' + str(len(b_list)))
-        await ctx.send(
-            f'' + c_list[random.randint(0, len(c_list))] + ' ' + f_list[random.randint(0, len(f_list))] + ' ' + b_list[
-                random.randint(0, len(b_list))])
+    @commands.command(name='marupic')
+    async def hanamaru_pic_sfw(self, ctx):
+        tags = ["kunikida_hanamaru"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Command: !lunch - dumb meme
+    Mari
     '''
-    @commands.command(name='lunch')
-    async def lunch(self, ctx):
-        await ctx.send(f'{ctx.author.name} is logging this chatroom! TheForkies')
+    @commands.command(name='maripic')
+    async def mari_pic_sfw(self, ctx):
+        tags = ["ohara_mari"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Command: !carl - generates a random Carl Sagan name
+    Ruby
     '''
-    @commands.command(name='carl')
-    async def carl(self, ctx):
-        cs_names = []
-        with open('cs.txt', 'r') as fin:
-            for l in fin:
-                cs_names.append(l)
-        await ctx.send(f'Carl "' + cs_names[random.randint(0, len(cs_names) - 1)] + '" Sagan')
+    @commands.command(name='rubypic')
+    async def ruby_pic_sfw(self, ctx):
+        tags = ["kurosawa_ruby"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-    Command: !mari - takes in a IRCstream and adds Marisa's flourishes to it
+    Shizuku
     '''
-    @commands.command(name='mari')
-    async def mari_text(self, ctx):
-        irc_string = ctx.content[6:] #ignores command str len
-        #for i in irc_string:
-        flourishes = [" ze! ", " wa yo. ", " daro. "]
-        rand = random.randint(1, 5)
-        try:
-            if(rand % 3 == 0):
-                irc_string = irc_string.replace( ". ", flourishes[0], 1)
-                rand = random.randint(1, 5)
-            elif(rand % 3 == 1):
-                irc_string = irc_string.replace(". ", flourishes[2], 1)
-                rand = random.randint(1, 5)
-            elif(rand % 3 == 2):
-                irc_string = irc_string.replace(". ", flourishes[1], 1)
-                rand = random.randint(1, 5)
-        except:
-            IOError()
-        try:
-            irc_string = irc_string.replace( ", ", " da ze, ")
-        except:
-            IOError()
-        try:
-            irc_string = irc_string.replace("! ", " da! ")
-        except:
-            IOError()
-        try:
-            irc_string = irc_string.replace("? ", " ne da ze? ")
-        except:
-            IOError()
-        if(rand%2 == 0):
-            irc_string = "yare yare, " + irc_string
-        elif(rand%2 == 1):
-            irc_string += " yare yare..."
-        await ctx.send(f'' + irc_string)
-        '''
-               def find_sub(in_str, start, end):
-                    return re.sub(
-                        r'(?<={}).*?(?={})'.format(re.escape(start), re.escape(end)),
-                        lambda m: m.group().strip().replace('.', ' ze!'),
-                        in_str)
-                '''
-
-    @commands.command(name='reggie')
-    async def reggie(self, ctx):
-        await ctx.send(f'https://i.imgur.com/ZsAZXS9h.jpg')
-
-    @commands.command(name='tridance')
-    async def tridance(self, ctx):
-        await ctx.send(f'https://i.imgur.com/3HGV7Hy')
-
-    @commands.command(name='kinohacked')
-    async def kinohacked(self, ctx):
-        kinopics = ["https://i.imgur.com/NDuYKdx.png", "https://i.imgur.com/S0iYj74.png", "https://i.imgur.com/YZC3ykm.png"]
-        rand = random.randint(0,len(kinopics)-1)
-        await ctx.send(f'{kinopics[rand]}')
-
-    @commands.command(name='434')
-    async def four_three_four(self, ctx):
-        await ctx.send(f'https://twitter.com/LiquidSquid_/status/1215446601810042880?s=20')
-
-    @commands.command(name='strive')
-    async def laughing_pointright_strive(self, ctx):
-        await ctx.send(f'😆 👉 Strive')
-
-    @commands.command(name='mal')
-    async def malrodin(self, ctx):
-        mal = ''
-        with open('mal.txt', 'r') as fin:
-            for l in fin:
-                mal = l
-        await ctx.send(f'{mal}')
-
-    @commands.command(name='hentai')
-    async def hentai(self, ctx):
-        hentext = ['This game is hentai DataSweat', 'This game is NOT hentai YoumuAngry', 'This game could possibly be hentai, but more testing is needed MarisaFace']
-        rand = random.randint(0,len(hentext)-1)
-        await ctx.send(f'{hentext[rand]}')
-    
-    @commands.command(name="fuck")
-    async def fuck(self, ctx):
-        fucktext = 'fuck' + ctx[5:]
-        ctx.send(f'{fucktext}') 
-    
-    # -------------------------------------------------------------------------------------------------------------#
-    #########################################   JOIN/LEAVE COMMANDS   ##############################################
-    # -------------------------------------------------------------------------------------------------------------#
-    '''
-    Command: joinch - adds channel to channels.txt and joins bot to 
-                    channel if they are not in the file.
-    '''
-    @commands.command(name='joinch')
-    async def joinch(self, ctx):
-        ch = ctx.author.name
-        print(f'channel to be searched for: ' + ch)
-        with open('channels.txt', 'r+') as fin:
-            print(f'file: channels.txt - opened as readonly+')
-            for l in fin.readlines():
-                print(ch + '|' + l.strip())
-                if (ch.lower() == l.strip().lower()):
-                    await ctx.send(f'' + ch + ' is already in the list of joined channels')
-                    print(f'status: breaking loop')
-                    print(f'file: channels.txt - closed')
-                    return
-            fin.write('\n' + ch)
-            print(f'file: channels.txt - appended string: "' + ch)
-            fin.close()
-            print(f'file: channels.txt - closed')
-            await self.join_channels(ch)
-            await ctx.send(f'' + ch + ' is now joined and added to the list of joined channels')
+    @commands.command(name='shizukupic')
+    async def shizuku_pic_sfw(self, ctx):
+        tags = ["ousaka_shizuku"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-    Command: channeladd - adds channel to channels.txt and joins bot to 
-             channel if they are not in the file. SUPERUSER ONLY
+    Kasumin
     '''
-    @commands.command(name='channeladd')
-    async def channeladd(self, ctx):
-        if(ctx.author.name in superuser):
-            ch = ctx.content[12:].strip()
-            print(f'channel to be searched for: ' + ch)
-            with open('channels.txt', 'r+') as fin:
-                print(f'file: channels.txt - opened as readonly+')
-                for l in fin.readlines():
-                    print(ch + '|' + l.strip())
-                    if (ch == l.strip()):
-                        await ctx.send(f'' + ch + ' is already in the list of joined channels')
-                        print(f'status: breaking loop')
-                        print(f'file: channels.txt - closed')
-                        return
-                fin.write('\n' + ch)
-                print(f'file: channels.txt - appended string: "' + ch)
-                fin.close()
-                print(f'file: channels.txt - closed')
-                await self.join_channels(ch)
-                await ctx.send(f'' + ch + ' is now joined and added to the list of joined channels')
-        else:
-            return
+    @commands.command(name='kasumipic')
+    async def kasumi_pic_sfw(self, ctx):
+        tags = ["nakasu_kasumi"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Command: leavech - removes sender from channels.txt if they are in the list of channels.
+    Rina
     '''
-    @commands.command(name='leavech')
-    async def leavech(self, ctx):
-        succ = 0
-        ch = ctx.author.name
-        print(f'channel to be searched for: ' + ch)
-        with open('channels.txt', 'r') as fin:
-            print(f'file: channels.txt - opened as readonly')
-            channels = fin.readlines()
-            last = channels[-1].strip('\n')
-            with open('channels.txt', 'w') as fin:
-                for l in channels:
-                    print(ch + '|' + l.strip('\n'))
-                    if (l.strip('\n') != ch and l.strip(
-                            '\n') == last):  # or l.strip('\n') == channels[-2].strip('\n')):
-                        fin.write(l.strip('\n'))
-                    elif (l.strip('\n') != ch):
-                        fin.write(l.strip() + '\n')
-                    else:
-                        succ += 1
-                        await self.part_channels(ch)
-                        # await self.event_part(ch) #does nothing
-                        await ctx.send(f'{self.nick} has left ' + ch + '')
-                if (succ == 1):
-                    return
-                else:
-                    await ctx.send(f'' + ch + ' is not in the list of joined channels')
+    @commands.command(name='rinapic')
+    async def rina_pic_sfw(self, ctx):
+        tags = ["tennouji_rina"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
 
     '''
-        Command: channelremove - removes user from channels.txt if they are in the list of channels. SUPERUSER ONLY
+    Ai
     '''
-    @commands.command(name='channelremove')
-    async def channelremove(self, ctx):
-        if(ctx.author.name in superuser):
-            succ = 0
-            ch = ctx.content[len('channelremove'):].strip()
-            print(f'channel to be searched for: ' + ch)
-            with open('channels.txt', 'r') as fin:
-                print(f'file: channels.txt - opened as readonly')
-                channels = fin.readlines()
-                last = channels[-1].strip('\n')
-                with open('channels.txt', 'w') as fin:
-                    for l in channels:
-                        print(ch + '|' + l.strip('\n'))
-                        if (l.strip('\n') != ch and l.strip(
-                                '\n') == last):  # or l.strip('\n') == channels[-2].strip('\n')):
-                            fin.write(l.strip('\n'))
-                        elif (l.strip('\n') != ch):
-                            fin.write(l.strip() + '\n')
-                        else:
-                            succ += 1
-                            await self.part_channels(ch)
-                            # await self.event_part(ch) #does nothing
-                            await ctx.send(f'{self.nick} has left ' + ch + '')
-                    if (succ == 1):
-                        return
-                    else:
-                        await ctx.send(f'' + ch + ' is not in the list of joined channels')
-        else:
-            return
+    @commands.command(name='aipic')
+    async def ai_pic_sfw(self, ctx):
+        tags = ["miyashita_ai"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)       
+
+    '''
+    Ayumu
+    '''
+    @commands.command(name='ayumupic')
+    async def ayumu_pic_sfw(self, ctx):
+        tags = ["uehara_ayumu"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Setsuna
+    '''
+    @commands.command(name='setsunapic')
+    async def setsuna_pic_sfw(self, ctx):
+        tags = ["yuuki_setsuna_(love_live!)"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Karin
+    '''
+    @commands.command(name='karinapic')
+    async def karin_pic_sfw(self, ctx):
+        tags = ["asaka_karin"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Emma
+    '''
+    @commands.command(name='emmapic')
+    async def emma_pic_sfw(self, ctx):
+        tags = ["emma_verde"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Kanata
+    '''
+    @commands.command(name='kanatapic')
+    async def kanata_pic_sfw(self, ctx):
+        tags = ["konoe_kanata"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)        
+
+    '''
+    Shioriko
+    '''
+    @commands.command(name='shiorikopic')
+    async def shioriko_pic_sfw(self, ctx):
+        tags = ["mifune_shioriko"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Lanzhu
+    '''
+    @commands.command(name='lanzhupic')
+    async def lanzhu_pic_sfw(self, ctx):
+        tags = ["zhong_lanzhu"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Mia
+    '''
+    @commands.command(name='miapic')
+    async def mia_pic_sfw(self, ctx):
+        tags = ["mia_taylor"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Kanon
+    '''
+    @commands.command(name='kanonpic')
+    async def kanon_pic_sfw(self, ctx):
+        tags = ["shibuya_kanon"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Keke
+    '''
+    @commands.command(name='kekepic')
+    async def keke_pic_sfw(self, ctx):
+        tags = ["tang_keke"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Chisato
+    '''
+    @commands.command(name='chisatopic')
+    async def chisato_pic_sfw(self, ctx):
+        tags = ["arashi_chisato"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Sumire
+    '''
+    @commands.command(name='sumirepic')
+    async def sumire_pic_sfw(self, ctx):
+        tags = ["heanna_sumire"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Ren
+    '''
+    @commands.command(name='renpic')
+    async def ren_pic_sfw(self, ctx):
+        tags = ["hazuki_ren"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Sarah
+    '''
+    @commands.command(name='sarahpic')
+    async def sarah_pic_sfw(self, ctx):
+        tags = ["kazuno_sarah"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Leah
+    '''
+    @commands.command(name='leahpic')
+    async def sarah_pic_sfw(self, ctx):
+        tags = ["kazuno_leah"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Muse
+    '''
+    @commands.command(name='musepic')
+    async def muse_pic_sfw(self, ctx):
+        tags = ["love_live!_school_idol_project"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Aqours
+    '''
+    @commands.command(name='aqourspic')
+    async def muse_pic_sfw(self, ctx):
+        tags = ["love_live!_sunshine!!"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Niji
+    '''
+    @commands.command(name='nijipic')
+    async def muse_pic_sfw(self, ctx):
+        tags = ["love_live!_nijigasaki_high_school_idol_club"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Leilla
+    '''
+    @commands.command(name='leillapic')
+    async def muse_pic_sfw(self, ctx):
+        tags = ["love_live!_superstar!!"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)        
 
     # -------------------------------------------------------------------------------------------------------------#
     #########################################      INFO COMMANDS      ##############################################
@@ -1737,3 +1400,4 @@ if(__name__ == '__main__'):
     print(f'Total Dreamboum Tweets Locally Scraped: 3541')
     blueayachan = BlueAyaChan()
     blueayachan.run()
+
