@@ -1,6 +1,6 @@
 '''
 Project: TosBot20 (Fork of Blueayachan) - Twitch IRC Bot
-Date Published: 02/28/2022
+Date Published: 03/06/2022
 File: tosbot20-3.10.py
 Original Author: Alex Barney
 Edits Made by: ProPiece_
