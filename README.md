@@ -1,55 +1,60 @@
-╭━━╮╭╮╱╱╱╱╱╱╭━━━╮╱╱╱╱╱╱╱╱╱╭╮
-┃╭╮┃┃┃╱╱╱╱╱╱┃╭━╮┃╱╱╱╱╱╱╱╱╱┃┃
-┃╰╯╰┫┃╭╮╭┳━━┫┃╱┃┣╮╱╭┳━━┳━━┫╰━┳━━┳━╮╱╭━━┳╮╱╭╮
-┃╭━╮┃┃┃┃┃┃┃━┫╰━╯┃┃╱┃┃╭╮┃╭━┫╭╮┃╭╮┃╭╮╮┃╭╮┃┃╱┃┃
-┃╰━╯┃╰┫╰╯┃┃━┫╭━╮┃╰━╯┃╭╮┃╰━┫┃┃┃╭╮┃┃┃┣┫╰╯┃╰━╯┃
-╰━━━┻━┻━━┻━━┻╯╱╰┻━╮╭┻╯╰┻━━┻╯╰┻╯╰┻╯╰┻┫╭━┻━╮╭╯
-╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱┃┃╱╭━╯┃
-╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╰╯╱╰━━╯
-## My third (and most functional) twitch IRC bot
-
 ### What is this?
-blueayachan is a twitch IRC Bot with a more "iterative" (lazy) approach to it's design to maximize enjoyment for the user.
+I forked Electra's blueayachan bot and made it for my stupid idol obsession
 
 ### Features!
 * High speed "SFW" image scraping from Danbooru (Now with 100% more sauce!)
-* Tons of gacha commands
-* Lots of good memes
 * User's can choose to omit commands they don't want to have in their channel (will eventually allow for this to be done in IRC)
 * User level ability to add and remove their own channels to and from the bot with a single command (you don't have to ask me to add you!)
 
-### "Good" Commands (there are more commands than just these but they probably suck)
+### Commands
 #### Image Scraping
-* !ayapic -  Queries safebooru and returns a link to a picture of Aya Shameimaru
-* !maripic - Queries safebooru and returns a link to a picture of Marisa Kirisame
-* !touhoupic - Queries safebooru and returns a link to a picture of a character from the Touhou™ series
-* !tsukipic - Queries safebooru and returns a link to a picture of a character from tsukihime/melty blood. Can search for specific characters using the keywords for different tags. Find kewords with `!tsukipic -keys`
-* !amepic - Queries safebooru and returns a link to a picture of Amelia Watson
-* !etrianpic - Queries safebooru and returns a link to a picture from Etrian Odyssey
-* !maypic - Queries safebooru and returns a link to a picture of May from Guilty Gear
-* !dizzypic - Queries safebooru and returns a link to a picture of Dizzy from Guilty Gear
-* !jampic - Queries safebooru and returns a link to a picture of Jam from Guilty Gear
-* !idolpic - gets you an idol. i really don't know much about that stuff... 
-* !mothmanpic - never scrapes images since there are like 2 mothman pics lol...
-* !datapic - DataFace
-* !fftpic - Queries safebooru and returns a link to a picture of art from the hit game Final Fantasy Tactics
-#### Gachas
-* !etrian - Returns an etrian class with witty flavor text
-* !melty - Gives you a new main in Melty Blood: Actress Again Current Code
-* !lumina - Gives you a new main in Melty Blood: Type Lumina
-* !melee - Gives you a new main in SSB Melee
-* !soku - Gives you a new main in Touhou 12.3 Hisoutensoku
-* !hornedanimegacha - Returns a random horned anime of rarity 0 - 5 Stars
-* !demongacha - Returns a random demon (currently only smt nocturne demons) of rarity 1 - 5 Stars
+* !teiopic -  Queries safebooru and returns a link to a picture of Tokai Teio
+* !honkpic - Queries safebooru and returns a link to a picture of Honoka Kousaka
+* !elipic - Queries safebooru and returns a link to a picture of Eli Ayase
+* !kotoripic - Queries safebooru and returns a link to a picture of Kotori Minami
+* !umipic - Queries safebooru and returns a link to a picture of Umi Sonoda
+* !rinpic - Queries safebooru and returns a link to a picture of Rin Hoshizora
+* !makipic - Queries safebooru and returns a link to a picture of Maki Nishikino
+* !nozomipic - Queries safebooru and returns a link to a picture of Nozomi Tojo
+* !hanayopic - Queries safebooru and returns a link to a picture of Hanayo Koizumi
+* !nicopic - Queries safebooru and returns a link to a picture of Nico Yazawa
+* !chikapic - Queries safebooru and returns a link to a picture of Chika Takami
+* !rikopic - Queries safebooru and returns a link to a picture of Riko Sakurauchi
+* !kananpic - Queries safebooru and returns a link to a picture of Kanan Matsuura
+* !diapic - Queries safebooru and returns a link to a picture of Dia Kurosawa
+* !youpic - Queries safebooru and returns a link to a picture of You Watanabe
+* !yoshikokpic - Queries safebooru and returns a link to a picture of Yoshiko Tsushima
+* !marupic - Queries safebooru and returns a link to a picture of Hanamaru Kunikida
+* !maripic - Queries safebooru and returns a link to a picture of Mari O'Hara
+* !rubypic - Queries safebooru and returns a link to a picture of Ruby Kurosawa
+* !shuzukupic - Queries safebooru and returns a link to a picture of Shizuku Osaka
+* !kasumipic - Queries safebooru and returns a link to a picture of Kasumi Nakasu
+* !rinapic - Queries safebooru and returns a link to a picture of Rina Tennoji
+* !ayumupic - Queries safebooru and returns a link to a picture of Ayumu Uehara
+* !setsunapic - Queries safebooru and returns a link to a picture of Setsuna Yuki
+* !karinpic - Queries safebooru and returns a link to a picture of Karin Asaka
+* !emmapic - Queries safebooru and returns a link to a picture of Emma Verde
+* !kanatapic - Queries safebooru and returns a link to a picture of Kanata Konoe
+* !shiorikopic - Queries safebooru and returns a link to a picture of Shioriko Mifune
+* !lanzhupic - Queries safebooru and returns a link to a picture of Lanzhu Zhong
+* !miapic - Queries safebooru and returns a link to a picture of Mia Taylor
+* !kanonpic - Queries safebooru and returns a link to a picture of Kanon Shibuya
+* !kekepic - Queries safebooru and returns a link to a picture of Keke Tang
+* !chisatopic - Queries safebooru and returns a link to a picture of Chisato Arashi
+* !sumirepic - Queries safebooru and returns a link to a picture of Sumire Heanna
+* !renpic - Queries safebooru and returns a link to a picture of Ren Hazuki
+* !sarahpic - Queries safebooru and returns a link to a picture of Sarah Kazuno
+* !leahpic - Queries safebooru and returns a link to a picture of Leah Kazuno
+* !musepic - Queries safebooru and returns a link to a picture of Random Muse Members or Maybe the Whole Group
+* !aqourspic - Queries safebooru and returns a link to a picture of Random Aqours Members or Maybe the Whole Group
+* !nijipic - Queries safebooru and returns a link to a picture of Random Niji Members or Maybe the Whole Group
+* !leillapic - Queries safebooru and returns a link to a picture of Random Leilla Members or Maybe the Whole Group
 #### Music
-* !etrianost - Sends a link to a random song from Etrian Odyssey and sends the title to the song
-#### Misc/Quote
-* !cfb - Generates a random text string using 'c', 'f', and 'b'
-* !pasta - Returns a random copypasta (Has a 90 second timeout after each use on a "per-channel" basis)
-* !dreamboumtweet - Returns a random tweet made by THE [@dreamboum](https://twitter.com/Dreamboum) on twitter
+* Might add a random Love Live song command eventually but there's like 130000 songs so maybe not
 #### Join/Leave
 * !joinch - Adds a user's channel to channels.txt and joins bot to channel if they are not in the file.
 * !leavech - Removes user's channel from channels.txt.
+* (These May not work idk)
 #### Information
 * !commandlist - Lists commands
 * !infodump - Dumps info
@@ -60,6 +65,7 @@ It's pretty obvious, but this project was heavily inspired by bots that came bef
 * FUNtoon by Taw_
 * ZeppyZ by Kuribon
 * Frigbot by Flameberger
+* Blueayachan by Electra_RTA (Who I pretty much just stole the code from)
 
 These bots have all entertained me immensely over the years and I am very thankful to their creator's hard work to make such simple programs create such engaging user experiences.
 
@@ -70,7 +76,9 @@ Now that this has a repo I suppose I should actually clean up the codebase a bit
 As this is Free Software, feel free to fork this repository and use the code to write your own bot. (Obviously you will have to do heavy modification since you can't use the credentials I use for my own bot)
 
 ### Contact Me!
-
+* [Twitch](https://www.twitch.tv/ProPiece_)
+* [Discord](ProPiece#8507)
+Or Contact the Real Owner
 * [Twitch](https://www.twitch.tv/electra_RTA)
+* [Twitter](https://twitter.com/electra_RTA)
   
-* [Twitter](https://twitter.com/electra_rta)
