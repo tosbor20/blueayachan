@@ -78,6 +78,7 @@ As this is Free Software, feel free to fork this repository and use the code to 
 ### Contact Me!
 * [Twitch](https://www.twitch.tv/ProPiece_)
 * [Discord](ProPiece#8507)
+
 Or Contact the Real Owner
 * [Twitch](https://www.twitch.tv/electra_RTA)
 * [Twitter](https://twitter.com/electra_RTA)
