@@ -882,40 +882,6 @@ class BlueAyaChan(commands.Bot):
     '''
         Command: !pasta - posts a random copypasta
     '''
-    async def pasta(self, ctx, timeout=90):
-        global pasta_dict
-        global pasta_str
-        time_now = datetime.now()
-        if(str(ctx.channel) not in pasta_dict.keys()):
-            try:
-                await ctx.send(f'' + str(pasta_str[random.randint(0,len(pasta_str) - 1)]))
-            except:
-                commands.CommandError
-                await ctx.send(f'' + str(pasta_str[random.randint(0, len(pasta_str) - 1)]))
-            pasta_dict[str(ctx.channel)] = datetime.now()
-        elif(str(ctx.channel) in pasta_dict.keys()):
-            print(time_now.time())
-            diff = (time_now.minute*60 + time_now.second) - (pasta_dict[str(ctx.channel)].minute*60 + pasta_dict[str(ctx.channel)].second)
-            print(diff)
-            if(diff >= timeout or diff <= -1): # becomes negative when the hour rolls over since i don't check for that this works fine
-                try:
-                    await ctx.send(f'' + str(pasta_str[random.randint(0, len(pasta_str) - 1)]))
-                except:
-                    commands.CommandError
-                    await ctx.send(f'' + str(pasta_str[random.randint(0, len(pasta_str) - 1)]))
-                pasta_dict[str(ctx.channel)] = None
-                pasta_dict[str(ctx.channel)] = datetime.now()
-        else:
-            try:
-                await ctx.send(f'' + str(pasta_str[random.randint(0, len(pasta_str) - 1)]))
-            except:
-                commands.CommandError
-                await ctx.send(f'' + str(pasta_str[random.randint(0, len(pasta_str) - 1)]))
-            return
-
-    @commands.command(name='pasta')
-    async def runpasta(self, ctx):
-        await asyncio.gather(self.pasta(ctx))
 
 #-------------------------------------------------------------------------------------------------------------#
 ############################################### PICTURE SCRAPING ##############################################
@@ -1349,6 +1315,33 @@ class BlueAyaChan(commands.Bot):
         tags = ["love_live!_superstar!!"]
         url = self.danbooru_picture_sfw(tags, init_p=1)
         await ctx.send(f'' + url)        
+        
+    '''
+    McQueen
+    '''
+    @commands.command(name='mcqueenpic')
+    async def mcqueen_pic_sfw(self, ctx):
+        tags = ["mejiro_mcqueen_(umamusume)"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Rice
+    '''
+    @commands.command(name='ricepic')
+    async def mcqueen_pic_sfw(self, ctx):
+        tags = ["rice_shower_(umamusume)"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)
+
+    '''
+    Uma
+    '''
+    @commands.command(name='umapic')
+    async def uma_pic_sfw(self, ctx):
+        tags = ["umamusume"]
+        url = self.danbooru_picture_sfw(tags, init_p=1)
+        await ctx.send(f'' + url)                  
 
     # -------------------------------------------------------------------------------------------------------------#
     #########################################      INFO COMMANDS      ##############################################
